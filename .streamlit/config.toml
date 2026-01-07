@@ -1,0 +1,17 @@
+[server]
+enableXsrfProtection = true
+
+[theme]
+base = "light"
+
+[client]
+toolbarMode = "minimal"
+
+[runner]
+fastReruns = true
+
+[ui]
+hideTopBar = true
+
+[global]
+enableMathjax = false
