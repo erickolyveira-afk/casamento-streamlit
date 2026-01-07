@@ -1,14 +1,11 @@
 import streamlit as st
-from datetime import date
-import pandas as pd
-import os
-import qrcode
-from io import BytesIO
+from datetime import datetime
+from streamlit_autorefresh import st_autorefresh
 import base64
 from pathlib import Path
 
 # ======================================================
-# CONFIGURAÇÃO DA PÁGINA (OBRIGATORIAMENTE PRIMEIRO)
+# CONFIGURAÇÃO DA PÁGINA (SEMPRE PRIMEIRO)
 # ======================================================
 st.set_page_config(
     page_title="Nosso Casamento",
@@ -17,28 +14,22 @@ st.set_page_config(
 )
 
 # ======================================================
-# IMPORTS
-# ======================================================
-from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
-import base64
-from pathlib import Path
-
-# ======================================================
 # AUTO REFRESH (1 segundo) — SEM LOOP
 # ======================================================
 st_autorefresh(interval=1000, key="contador")
 
 # ======================================================
-# CSS GLOBAL + SIDEBAR
+# CSS GLOBAL + SIDEBAR (FORÇANDO MODO CLARO)
 # ======================================================
-st.markdown("""
+st.markdown(
+    """
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap');
 
 /* Forçar modo claro */
-:root { color-scheme: light; }
+:root {
+    color-scheme: light;
+}
 
 /* App */
 .stApp {
@@ -72,6 +63,7 @@ st.markdown("""
     font-family: 'Cormorant Garamond', serif !important;
     font-size: 26px !important;
     letter-spacing: 0.2em !important;
+    color: #2e2e2e !important;
 }
 
 [data-testid="stMetricLabel"] > div {
@@ -88,16 +80,18 @@ st.markdown("""
         color: #2e2e2e !important;
     }
 }
-
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 # ======================================================
 # FUNDO DA PÁGINA
 # ======================================================
-def add_bg_from_local(image_path):
+def add_bg_from_local(image_path: str):
     with open(image_path, "rb") as img:
         encoded = base64.b64encode(img.read()).decode()
+
     st.markdown(
         f"""
         <style>
@@ -121,7 +115,8 @@ font_path = Path("assets/fonts/WonderfulBranding.ttf")
 with open(font_path, "rb") as f:
     font_base64 = base64.b64encode(f.read()).decode()
 
-st.markdown(f"""
+st.markdown(
+    f"""
 <style>
 @font-face {{
     font-family: 'WonderfulBranding';
@@ -133,6 +128,7 @@ h1.fade-in {{
     font-size: 52px;
     text-align: center;
     font-weight: 100;
+    margin-bottom: 10px;
 }}
 
 h3.fade-in {{
@@ -140,17 +136,23 @@ h3.fade-in {{
     letter-spacing: 0.3em;
     text-align: center;
     font-weight: 300;
+    margin-top: 0;
 }}
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 # ======================================================
-# TÍTULOS
+# TÍTULOS (APENAS MARKDOWN — SAFE PARA SAFARI)
 # ======================================================
-st.markdown("""
+st.markdown(
+    """
 <h1 class="fade-in">Lidia e Erick</h1>
 <h3 class="fade-in">CONTAGEM REGRESSIVA PARA O NOSSO SIM!</h3>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
