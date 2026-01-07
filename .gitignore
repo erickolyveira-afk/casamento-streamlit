@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter / VSCode
+.ipynb_checkpoints/
+*.ipynb
+
+# Sistema
+.DS_Store
+Thumbs.db
