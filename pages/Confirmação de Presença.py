@@ -208,7 +208,12 @@ label {{
 # FORMULÁRIO RSVP
 # ======================================================
 
-st.header("Confirme aqui a sua presença:")
+st.markdown(
+    """
+    <h1 class="fade-in">Confirme aqui sua presença</h1>
+    """,
+    unsafe_allow_html=True
+)
 
 nome = st.text_input("Seu nome completo:")
 confirmacao = st.selectbox(
