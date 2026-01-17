@@ -21,6 +21,26 @@ st.markdown(
     src: url(data:font/ttf;base64,{font_base64}) format('truetype');
 }}
 
+@font-face {{
+    font-family: 'WonderfulBranding';
+    src: url(data:font/ttf;base64,{font_base64}) format('truetype');
+}}
+
+@keyframes fadeUp {{
+    from {{
+        opacity: 0;
+        transform: translateY(25px);
+    }}
+    to {{
+        opacity: 1;
+        transform: translateY(0);
+    }}
+}}
+
+.fade-in {{
+    animation: fadeUp 1.8s ease-out forwards;
+}}
+
 h1.fade-in {{
     font-family: 'WonderfulBranding', serif !important;
     font-size: 25px !important;
@@ -208,12 +228,10 @@ label {{
 # FORMULÁRIO RSVP
 # ======================================================
 
-st.markdown(
-    """
-    <h1 class="fade-in">Confirme aqui sua presença</h1>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<h1 class="fade-in">Confirme aqui sua presença</h1>
+<h3 class="fade-in">COM MUITO AMOR</h3>
+""", unsafe_allow_html=True)
 
 nome = st.text_input("Seu nome completo:")
 confirmacao = st.selectbox(
