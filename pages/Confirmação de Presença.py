@@ -23,7 +23,7 @@ st.markdown(
 
 h1.fade-in {{
     font-family: 'WonderfulBranding', serif !important;
-    font-size: 52px;
+    font-size: 27px;
     text-align: center;
     font-weight: 100;
     margin-bottom: 10px;
