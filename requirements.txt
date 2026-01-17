@@ -6,3 +6,7 @@ Pillow
 mercadopago
 folium
 streamlit-folium
+gspread
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
