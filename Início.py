@@ -139,27 +139,48 @@ div[data-testid="column"] {
 """, unsafe_allow_html=True)
 
 # ======================================================
-# FUNDO DA PÁGINA
+# FUNDO DA PÁGINA — MOBILE E DESKTOP
 # ======================================================
-def add_bg_from_local(image_path: str):
-    with open(image_path, "rb") as img:
-        encoded = base64.b64encode(img.read()).decode()
+def add_responsive_background(desktop_img, mobile_img):
+    import base64
+
+    with open(desktop_img, "rb") as f:
+        desktop_base64 = base64.b64encode(f.read()).decode()
+
+    with open(mobile_img, "rb") as f:
+        mobile_base64 = base64.b64encode(f.read()).decode()
 
     st.markdown(
         f"""
         <style>
+
+        /* DESKTOP / NOTEBOOK */
         .stApp {{
-            background-image: url("data:image/jpeg;base64,{encoded}");
+            background-image: url("data:image/jpeg;base64,{desktop_base64}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }}
+
+        /* MOBILE */
+        @media (max-width: 768px) {{
+            .stApp {{
+                background-image: url("data:image/jpeg;base64,{mobile_base64}");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }}
+        }}
+
         </style>
         """,
         unsafe_allow_html=True
     )
 
-add_bg_from_local("images/layout/Floripa 311223.jpg")
+add_responsive_background(
+    desktop_img="images/layout/Floripa 311223 (5).jpg",
+    mobile_img="images/layout/Floripa 311223.jpg"
+)
 
 # ======================================================
 # FONTE WONDERFUL BRANDING
