@@ -7,10 +7,10 @@ from google.oauth2.service_account import Credentials
 import gspread
 
 # ======================================================
-# CONFIGURAÇÃO GOOGLE SHEETS
+# CONFIGURAÇÃO GOOGLE SHEETS 
 # ======================================================
 
-SHEET_URL = "https://docs.google.com/spreadsheets/d/SEU_ID_DA_PLANILHA_AQUI"
+SHEET_ID = "1khxlBw8EeznvAFuQhMUq-P5xFVAFjrV_4p04AcRkokI"
 
 scope = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -23,7 +23,9 @@ credentials = Credentials.from_service_account_info(
 )
 
 gc = gspread.authorize(credentials)
-sheet = gc.open_by_url(SHEET_URL).sheet1
+
+# ✅ AQUI ESTÁ A CORREÇÃO REAL
+sheet = gc.open_by_key(SHEET_ID).sheet1
 
 
 # ======================================================
