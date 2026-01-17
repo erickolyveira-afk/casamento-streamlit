@@ -97,30 +97,49 @@ input, textarea, select {
 </style>
 """, unsafe_allow_html=True)
 
-# --------------------------------------
-# Configurações da página
-# --------------------------------------
+# ======================================================
+# FUNDO DA PÁGINA — MOBILE E DESKTOP
+# ======================================================
+def add_responsive_background(desktop_img, mobile_img):
+    import base64
 
-# ----- FUNDO DA PÁGINA -----
-def add_bg_from_local(image_file):
-    with open(image_file, "rb") as img_file:
-        encoded_string = base64.b64encode(img_file.read()).decode()
+    with open(desktop_img, "rb") as f:
+        desktop_base64 = base64.b64encode(f.read()).decode()
+
+    with open(mobile_img, "rb") as f:
+        mobile_base64 = base64.b64encode(f.read()).decode()
 
     st.markdown(
         f"""
         <style>
+
+        /* DESKTOP / NOTEBOOK */
         .stApp {{
-            background-image: url("data:image/jpeg;base64,{encoded_string}");
+            background-image: url("data:image/jpeg;base64,{desktop_base64}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }}
+
+        /* MOBILE */
+        @media (max-width: 768px) {{
+            .stApp {{
+                background-image: url("data:image/jpeg;base64,{mobile_base64}");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }}
+        }}
+
         </style>
         """,
         unsafe_allow_html=True
     )
 
-add_bg_from_local("images/layout/Floripa 311224.jpg")
+add_responsive_background(
+    desktop_img="images/layout/Floripa 311224.jpg",
+    mobile_img="images/layout/Floripa 311223.jpg"
+)
 
 # Caminho da fonte Wonderful Branding
 font_path = Path("assets/fonts/WonderfulBranding.ttf")
@@ -169,7 +188,7 @@ st.markdown(f"""
 st.header("Confirme aqui a sua presença:")
 
 name = st.text_input("Seu nome:")
-confirmation = st.selectbox("Você confirma presença?", ["Sim", "Não", "Ainda não sei"])
+confirmation = st.selectbox("Você confirma presença?", ["Sim", "Não"])
 
 csv_path = "rsvp.csv"
 
