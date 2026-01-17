@@ -23,40 +23,29 @@ st_autorefresh(interval=1000, key="contador")
 # ======================================================
 st.markdown("""
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap');
 
-/* ======================================================
-   BASE
-====================================================== */
-
-:root {
-    color-scheme: light;
-}
-
-.stApp {
-    background-color: #FDF5E6 !important;
-    color: #2e2e2e !important;
-}
-
-/* ======================================================
-   SIDEBAR
-====================================================== */
-
-[data-testid="stSidebar"] {
-    background-color: #FDF5E6 !important;
+/* SIDEBAR */
+[data-testid="stSidebar"] { 
+    background-color: 	#FDF5E6 !important; 
     font-family: 'Cormorant Garamond', serif !important;
 }
 
+/* LINKS DO MENU */
 [data-testid="stSidebar"] a {
-    color: #363636 !important;
-    font-size: 18px !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    color: #4a4a4a !important;
+    font-size: 100px !important;
     text-decoration: none !important;
-    transition: 0.3s ease;
+    transition: 0.3s ease !important;
+    padding-left: 4px !important;
 }
 
+/* HOVER */
 [data-testid="stSidebar"] a:hover {
     color: #F5DEB3 !important;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.03em !important;
 }
 
 /* ======================================================
