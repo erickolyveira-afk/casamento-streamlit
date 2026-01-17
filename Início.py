@@ -232,32 +232,3 @@ c3.metric("MINUTOS", minutes)
 c4.metric("SEGUNDOS", seconds)
 
 st.markdown('</div>', unsafe_allow_html=True)
-
-# ================= MOBILE =================
-st.markdown(f"""
-<div class="mobile-only">
-    <div class="mobile-countdown">
-
-        <div class="mobile-box">
-            <div class="mobile-number">{days}</div>
-            <div class="mobile-label">DIAS</div>
-        </div>
-
-        <div class="mobile-box">
-            <div class="mobile-number">{hours}</div>
-            <div class="mobile-label">HORAS</div>
-        </div>
-
-        <div class="mobile-box">
-            <div class="mobile-number">{minutes}</div>
-            <div class="mobile-label">MINUTOS</div>
-        </div>
-
-        <div class="mobile-box">
-            <div class="mobile-number">{seconds}</div>
-            <div class="mobile-label">SEGUNDOS</div>
-        </div>
-
-    </div>
-</div>
-""", unsafe_allow_html=True)
