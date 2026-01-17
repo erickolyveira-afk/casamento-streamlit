@@ -186,6 +186,21 @@ st.markdown(
     src: url(data:font/ttf;base64,{font_base64}) format('truetype');
 }}
 
+@keyframes fadeUp {{
+    from {{
+        opacity: 0;
+        transform: translateY(25px);
+    }}
+    to {{
+        opacity: 1;
+        transform: translateY(0);
+    }}
+}}
+
+.fade-in {{
+    animation: fadeUp 1.8s ease-out forwards;
+}}
+
 h1.fade-in {{
     font-family: 'WonderfulBranding', serif !important;
     font-size: 52px;

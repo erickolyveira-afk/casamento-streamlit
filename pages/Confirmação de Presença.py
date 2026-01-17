@@ -21,11 +21,6 @@ st.markdown(
     src: url(data:font/ttf;base64,{font_base64}) format('truetype');
 }}
 
-@font-face {{
-    font-family: 'WonderfulBranding';
-    src: url(data:font/ttf;base64,{font_base64}) format('truetype');
-}}
-
 @keyframes fadeUp {{
     from {{
         opacity: 0;
