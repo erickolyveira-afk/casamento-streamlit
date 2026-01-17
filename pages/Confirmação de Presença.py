@@ -230,7 +230,6 @@ label {{
 
 st.markdown("""
 <h1 class="fade-in">Confirme aqui sua presença</h1>
-<h3 class="fade-in">COM MUITO AMOR</h3>
 """, unsafe_allow_html=True)
 
 nome = st.text_input("Seu nome completo:")
