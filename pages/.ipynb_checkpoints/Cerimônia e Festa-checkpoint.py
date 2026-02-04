@@ -261,7 +261,7 @@ st.markdown(
     <div class="texto-cerimonia">
     <h3 style="text-align:center;">Cerimônia</h3>
 
-    Nossa celebração começa às <b>14h30</b>, na <b>Casa 170</b>, no Guarujá. Pedimos que cheguem com <b>15 minutinhos de antecedência</b> para aproveitarmos tudo juntos.
+    Nossa celebração começa às <b>15h30</b>, na <b>Casa 170</b>, no Guarujá. Pedimos que cheguem com <b>15 minutinhos de antecedência</b> para aproveitarmos tudo juntos.
   
     O traje sugerido é <b>esporte fino</b>. Como a cerimônia será <b>ao ar livre</b>, vale levar um casaquinho caso esfrie ou protetor solar se o sol estiver forte.
 

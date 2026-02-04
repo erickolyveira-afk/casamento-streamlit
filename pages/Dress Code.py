@@ -1,6 +1,10 @@
 import streamlit as st
 import base64
 from pathlib import Path
+import streamlit.components.v1 as components
+
+def spacer(height=24):
+    st.markdown(f"<div style='height:{height}px'></div>", unsafe_allow_html=True)
 
 # ==============================
 # CONFIGURAÇÃO INICIAL
@@ -180,10 +184,14 @@ def add_bg_from_local(image_file):
 # ---- DEFINA A IMAGEM ----
 add_bg_from_local("images/layout/fundomake.jpg")
 
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img:
+        return base64.b64encode(img.read()).decode()
+
 # -----------------------------------
 # CONTEÚDO DA PÁGINA
 # -----------------------------------
-st.title("Cabelo e Maquiagem")
+st.title("Dress Code")
 
 
 st.markdown(
@@ -199,6 +207,7 @@ st.markdown(
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             line-height: 1.8;
+            overflow: hidden;
         }
 
         .texto-cerimonia > div {
@@ -206,7 +215,15 @@ st.markdown(
         }
 
         .texto-cerimonia > div:last-child {
-            margin-bottom: 0;
+            margin-bottom: 0 px;
+        }
+
+        h2, h3, h4, h5, h6 {
+        font-family: 'WonderfulBranding', serif !important;
+        font-size: 15px !important;
+        font-weight: 100 !important;
+        letter-spacing: 0.05em !important;
+        text-align: left !important;
         }
     </style>
     """,
@@ -215,11 +232,118 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="texto-cerimonia"> 
-    <div>Para o nosso grande dia, optamos por uma produção especial que combine com a essência do casamento!!</div>
-    <div>Queremos que todos se sintam confortáveis e confiantes, então não há regras. O mais importante é celebrar conosco e aproveitar cada momento.</div>
-    <div>Portanto deixaremos as seguintes sugestões de lugares: 
+    <div class="texto-cerimonia">
+        <div>
+            Recomendamos que optem por roupas leves e elegantes,
+            no modelo esporte fino, como nos exemplos abaixo.
+        </div>
     </div>
     """,
     unsafe_allow_html=True
+)
+
+spacer(28)
+
+img_mulheres = image_to_base64("images/layout/Mulheres.png")
+
+components.html(
+    f"""
+    <style>
+        @font-face {{
+            font-family: 'WonderfulBranding';
+            src: url(data:font/ttf;base64,{wonderful_base64}) format('truetype');
+        }}
+
+        body {{
+            margin: 0;
+            padding: 0;
+        }}
+
+        .card {{
+            width: 100%;
+            padding: 35px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.80);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            box-sizing: border-box;
+        }}
+
+        .titulo {{
+            font-family: 'WonderfulBranding', serif;
+            font-size: 22px;
+            letter-spacing: 0.08em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2e2e2e;
+        }}
+
+        img {{
+            width: 100%;
+            max-width: 450px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 20px;
+        }}
+    </style>
+
+    <div class="card">
+        <div class="titulo">Mulheres</div>
+        <img src="data:image/png;base64,{img_mulheres}">
+    </div>
+    """,
+    height=600
+)
+
+img_homens = image_to_base64("images/layout/Homens.png")
+
+components.html(
+    f"""
+    <style>
+        @font-face {{
+            font-family: 'WonderfulBranding';
+            src: url(data:font/ttf;base64,{wonderful_base64}) format('truetype');
+        }}
+
+        body {{
+            margin: 0;
+            padding: 0;
+        }}
+
+        .card {{
+            width: 100%;
+            padding: 35px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.80);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            box-sizing: border-box;
+        }}
+
+        .titulo {{
+            font-family: 'WonderfulBranding', serif;
+            font-size: 22px;
+            letter-spacing: 0.08em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2e2e2e;
+        }}
+
+        img {{
+            width: 100%;
+            max-width: 450px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 20px;
+        }}
+    </style>
+
+    <div class="card">
+        <div class="titulo">Homens</div>
+        <img src="data:image/png;base64,{img_homens}">
+    </div>
+    """,
+    height=600
 )

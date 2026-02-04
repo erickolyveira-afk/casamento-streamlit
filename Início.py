@@ -3,6 +3,8 @@ from datetime import datetime
 from streamlit_autorefresh import st_autorefresh
 import base64
 from pathlib import Path
+import random
+import base64
 
 # ======================================================
 # CONFIGURAÇÃO DA PÁGINA (SEMPRE PRIMEIRO)
@@ -12,6 +14,37 @@ st.set_page_config(
     page_icon="💍",
     layout="wide"
 )
+
+# ======================================================
+# MÚSICA
+# ======================================================
+
+def spotify_player():
+    st.markdown("""
+    <style>
+    iframe.spotify {
+        filter: brightness(0.9) contrast(1.05);
+        border-radius: 14px;
+        opacity: 0.9;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.components.v1.html(
+        """
+        <iframe
+            class="spotify"
+            src="https://open.spotify.com/embed/playlist/3Wv0Wq2DorrZHzpV1eYU3Y"
+            width="100%"
+            height="80"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
+        """,
+        height=90
+    )
+
+spotify_player()
 
 # ======================================================
 # AUTO REFRESH (1 segundo) — SEM LOOP
