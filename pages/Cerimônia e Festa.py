@@ -151,7 +151,7 @@ st.markdown(
     <div class="texto-cerimonia">
 
     <b>Data:</b> 01/05/2026  
-    <b>Horário:</b> 14h30  
+    <b>Horário:</b> 15h30  
     <b>Local:</b> R. das Seringueiras, 170 - Balneario Praia do Pernambuco, Guarujá - SP, 11444-340  
     </div>
     """,
@@ -256,21 +256,21 @@ col = st.columns([1])[0]
 with col:
     st_folium(m, height=200, width=None)
 
-st.markdown(
-    """
-    <div class="texto-cerimonia">
-    <h3 style="text-align:center;">Cerimônia</h3>
+# st.markdown(
+#     """
+#     <div class="texto-cerimonia">
+#     <h3 style="text-align:center;">Cerimônia</h3>
 
-    Nossa celebração começa às <b>15h30</b>, na <b>Casa 170</b>, no Guarujá. Pedimos que cheguem com <b>15 minutinhos de antecedência</b> para aproveitarmos tudo juntos.
+#     Nossa celebração começa às <b>15h30</b>, na <b>Casa 170</b>, no Guarujá. Pedimos que cheguem com <b>15 minutinhos de antecedência</b> para aproveitarmos tudo juntos.
   
-    O traje sugerido é <b>esporte fino</b>. Como a cerimônia será <b>ao ar livre</b>, vale levar um casaquinho caso esfrie ou protetor solar se o sol estiver forte.
+#     O traje sugerido é <b>esporte fino</b>. Como a cerimônia será <b>ao ar livre</b>, vale levar um casaquinho caso esfrie ou protetor solar se o sol estiver forte.
 
-    Para vivermos esse momento de um jeito ainda mais especial, optamos por uma <b>cerimônia desconectada</b>: sem fotos ou gravações. Queremos vocês inteiros com a gente, curtindo cada segundo ao vivo.
+#     Para vivermos esse momento de um jeito ainda mais especial, optamos por uma <b>cerimônia desconectada</b>: sem fotos ou gravações. Queremos vocês inteiros com a gente, curtindo cada segundo ao vivo.
 
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 st.markdown(
     """
@@ -306,7 +306,7 @@ st.markdown(
 
     <b>O local da festa será no mesmo endereço da cerimônia</b>, então ninguém precisará se preocupar com deslocamentos ou transporte entre os eventos.
 
-    A recepção acontece logo após a cerimônia e, em seguida, inicia a festa com <b>duração prevista de 4 horas</b>. Por isso, aproveitem cada minuto com a gente!
+    A recepção acontece logo após a cerimônia e, em seguida, inicia a festa. Por isso, aproveitem cada minuto com a gente!
 
     Preparamos um <b>cardápio variado</b>, um <b>bar de drinks completo</b> e, claro, <b>open bar de cerveja</b> para deixar a noite ainda mais especial.
 

@@ -26,9 +26,9 @@ def criar_pagamento_cartao(total, nome):
         },
 
         "back_urls": {
-            "success": "https://example.com/success",
-            "failure": "https://example.com/failure",
-            "pending": "https://example.com/pending",
+            "success": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+            "failure": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+            "pending": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
         },
 
         "auto_return": "approved"

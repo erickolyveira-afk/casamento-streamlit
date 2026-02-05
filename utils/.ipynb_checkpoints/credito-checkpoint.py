@@ -15,12 +15,23 @@ def criar_pagamento_cartao(total, nome):
                 "unit_price": float(total),
             }
         ],
-        "back_urls": {
-            "success": "https://example.com/success",
-            "failure": "https://example.com/failure",
-            "pending": "https://example.com/pending",
+
+        # ✅ CONFIGURAÇÃO DE PARCELAMENTO (AQUI!)
+        "payment_methods": {
+            "installments": 12,  # até 12x
+            "excluded_payment_types": [
+                {"id": "pix"},
+                {"id": "boleto"}
+            ]
         },
-        "auto_return": "approved",
+
+        "back_urls": {
+            "success": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+            "failure": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+            "pending": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+        },
+
+        "auto_return": "approved"
     }
 
     preference = sdk.preference().create(preference_data)

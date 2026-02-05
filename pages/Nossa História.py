@@ -191,7 +191,7 @@ st.markdown(
 st.markdown(
     """
     <div class="texto-cerimonia"> 
-    <div>De uma apresentação escolar a encontros inusitados e aleatórios pelas ruas e trens, com o passar do tempo, muitas vezes refletimos sobre nossa história. Por isso, preferimos acreditar que todos esses encontros foram obra do acaso, que simplesmente tinham de acontecer.</div>
+    <div>De uma apresentação escolar a encontros inusitados e aleatórios pelas ruas e trens, com o passar do tempo, muitas vezes refletimos sobre nossa história. Por isso, preferimos acreditar que todos esses encontros não foram obra do acaso, que simplesmente tinham de acontecer.</div>
     <div>Desde o período em que éramos apenas amigos, quando nos tornamos confidentes um do outro, até o momento em que iniciamos nosso relacionamento, a vida sempre pareceu sorrir quando estávamos juntos, seja nas salas de cinema ou simplesmente caminhando por aí. Com o tempo, foi interessante perceber que não se tratava da situação em si, mas sim da companhia.</div>
     <div>Foi dessa forma que passamos a nos encontrar quase todos os dias, seja para compromissos definidos ou para situações mais simples e banais, como levar um brigadeiro até o portão dela apenas para ter uma desculpa para vê-la.</div>
     <div>Ao longo desses anos, não faltaram desafios, dificuldades e situações que nos forçaram a crescer e amadurecer, tanto como casal quanto individualmente. É bonito perceber como todas essas experiências alimentaram nossa relação e a transformaram em algo melhor para nós dois. Assim, agradecemos não apenas pelos bons momentos, mas também pelos difíceis, que nos ensinaram que nosso parceiro sempre estará ao nosso lado para cuidar da gente.</div>
