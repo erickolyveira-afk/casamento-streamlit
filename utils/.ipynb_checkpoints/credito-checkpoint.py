@@ -1,11 +1,10 @@
 import mercadopago
-import os
 
 sdk = mercadopago.SDK(
     "APP_USR-5926755074577430-122615-8a4a967289f3c75def678f6d52bd5fe7-228841284"
 )
 
-def criar_pagamento_cartao(total, nome):
+def criar_pagamento_cartao(total, nome, checkout_id):
     preference_data = {
         "items": [
             {
@@ -16,19 +15,20 @@ def criar_pagamento_cartao(total, nome):
             }
         ],
 
-        # ✅ CONFIGURAÇÃO DE PARCELAMENTO (AQUI!)
+        # ✅ Parcelamento
         "payment_methods": {
-            "installments": 12,  # até 12x
+            "installments": 12,
             "excluded_payment_types": [
                 {"id": "pix"},
                 {"id": "boleto"}
             ]
         },
 
+        # 🔁 URLs COM ESTADO
         "back_urls": {
-            "success": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
-            "failure": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
-            "pending": "https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes",
+            "success": f"https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes?checkout_id={checkout_id}&status=sucesso",
+            "failure": f"https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes?checkout_id={checkout_id}&status=erro",
+            "pending": f"https://casamento-lidia-e-erick.streamlit.app/Lista_de_Presentes?checkout_id={checkout_id}&status=pendente",
         },
 
         "auto_return": "approved"

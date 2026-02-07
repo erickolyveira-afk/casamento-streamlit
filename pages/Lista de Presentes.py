@@ -8,7 +8,30 @@ from pathlib import Path
 from data.presentes import presentes
 from utils.pix import gerar_pix_payload, gerar_qr
 from utils.credito import criar_pagamento_cartao
+from utils.checkout import carregar_estado_checkout, salvar_estado_checkout
 
+query_params = st.query_params
+
+checkout_id = query_params.get("checkout_id")
+status = query_params.get("status")
+
+if checkout_id:
+    dados = carregar_estado_checkout(checkout_id)
+
+    st.session_state["nome"] = dados.get("nome")
+    st.session_state["mensagem"] = dados.get("mensagem")
+    st.session_state["carrinho"] = dados.get("carrinho", [])
+
+    if status == "sucesso":
+        st.session_state["pagina"] = "credito_sucesso"
+
+    elif status == "erro":
+        st.session_state["pagina"] = "credito_erro"
+
+    elif status == "pendente":
+        st.session_state["pagina"] = "credito_pendente"
+
+    st.experimental_set_query_params()
 # ==============================
 # CONFIGURAÇÃO INICIAL
 # ==============================
@@ -433,12 +456,10 @@ if st.session_state["pagina"] == "checkout":
                 value=float(item["preco"]),
                 key=f"misterioso_{idx}"
             )
-    
-            # atualiza o preço no carrinho
+
             st.session_state["carrinho"][idx]["preco"] = valor
-    
             st.write(f"🎁 {item['nome']} — R$ {valor:.2f}")
-    
+
         else:
             st.write(f"🎁 {item['nome']} — R$ {item['preco']:.2f}")
 
@@ -452,43 +473,33 @@ if st.session_state["pagina"] == "checkout":
 
     col1, col2 = st.columns(2)
 
+    # ✅ PIX — confirmação manual
     with col1:
-        if st.button("💠 Pagar com PIX",
-                    use_container_width=True
-                    ):
+        if st.button("💠 Pagar com PIX", use_container_width=True):
             salvar_mensagem(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total)
+                st.session_state["nome"],
+                st.session_state["mensagem"],
+                st.session_state["carrinho"],
+                total
+            )
+
             enviar_email(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total)
+                st.session_state["nome"],
+                st.session_state["mensagem"],
+                st.session_state["carrinho"],
+                total
+            )
+
             st.session_state["pagina"] = "pix"
             st.rerun()
 
+    # ✅ CARTÃO — só redireciona
     with col2:
-        if st.button("💳 Pagar com Cartão",
-                    use_container_width=True
-                    ):
-            salvar_mensagem(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total)
-            enviar_email(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total)
+        if st.button("💳 Pagar com Cartão", use_container_width=True):
             st.session_state["pagina"] = "credito"
             st.rerun()
 
-    if st.button("⬅ Voltar",
-                use_container_width=True
-                ):
+    if st.button("⬅ Voltar", use_container_width=True):
         st.session_state["pagina"] = "lista"
         st.rerun()
 
@@ -564,38 +575,81 @@ if st.session_state["pagina"] == "credito":
     st.write(f"💰 Total: R$ {total:.2f}")
 
     if st.button("🔐 Pagar com cartão", use_container_width=True):
+        checkout_id = salvar_estado_checkout()
+
         link = criar_pagamento_cartao(
             total,
-            st.session_state.get("nome", "Convidado")
+            st.session_state.get("nome", "Convidado"),
+            checkout_id=checkout_id
         )
+
         st.markdown(
             f'<meta http-equiv="refresh" content="0; url={link}">',
             unsafe_allow_html=True
         )
 
-    st.markdown("---")
-
-    st.info("Após concluir o pagamento no Mercado Pago, volte para esta página.")
-
-    if st.button("✅ Já realizei o pagamento", use_container_width=True):
-        salvar_mensagem(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total
-        )
-
-        enviar_email(
-            st.session_state["nome"],
-            st.session_state["mensagem"],
-            st.session_state["carrinho"],
-            total
-        )
-
-        st.success("Pagamento confirmado com sucesso! Muito obrigado 💖")
-
-        st.session_state["carrinho"] = []
-
     if st.button("⬅ Voltar", use_container_width=True):
+        st.session_state["pagina"] = "checkout"
+        st.rerun()
+
+# ==============================
+# RETORNO — CARTÃO APROVADO
+# ==============================
+if st.session_state["pagina"] == "credito_sucesso":
+    st.title("💖 Pagamento confirmado!")
+
+    total = sum(item["preco"] for item in st.session_state["carrinho"])
+
+    salvar_mensagem(
+        st.session_state["nome"],
+        st.session_state["mensagem"],
+        st.session_state["carrinho"],
+        total
+    )
+
+    enviar_email(
+        st.session_state["nome"],
+        st.session_state["mensagem"],
+        st.session_state["carrinho"],
+        total
+    )
+
+    st.success("Muito obrigado pelo carinho! 💐")
+
+    st.session_state["carrinho"] = []
+
+    if st.button("Voltar para a lista"):
+        st.session_state["pagina"] = "lista"
+        st.rerun()
+
+
+# ==============================
+# RETORNO — CARTÃO PENDENTE
+# ==============================
+if st.session_state["pagina"] == "credito_pendente":
+    st.title("⏳ Pagamento pendente")
+
+    st.warning(
+        "Seu pagamento ainda está em análise pelo Mercado Pago. "
+        "Assim que for aprovado, ele será confirmado automaticamente."
+    )
+
+    if st.button("Voltar"):
+        st.session_state["pagina"] = "lista"
+        st.rerun()
+
+
+# ==============================
+# RETORNO — CARTÃO COM ERRO
+# ==============================
+if st.session_state["pagina"] == "credito_erro":
+    st.title("❌ Pagamento não concluído")
+
+    st.error(
+        "O pagamento não foi aprovado. "
+        "Você pode tentar novamente ou escolher outra forma de pagamento."
+    )
+
+    if st.button("Tentar novamente"):
         st.session_state["pagina"] = "checkout"
         st.rerun()
