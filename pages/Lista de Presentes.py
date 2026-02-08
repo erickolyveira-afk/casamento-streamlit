@@ -575,29 +575,29 @@ if st.session_state["pagina"] == "credito":
     total = sum(item["preco"] for item in st.session_state["carrinho"])
     st.write(f"💰 Total: R$ {total:.2f}")
 
-    if st.button("🔐 Pagar com cartão", use_container_width=True):
-        checkout_id = salvar_estado_checkout()
+    if "mp_link" not in st.session_state:
+        if st.button("🔐 Gerar pagamento", use_container_width=True):
+            checkout_id = salvar_estado_checkout()
 
-        link = criar_pagamento_cartao(
-            total,
-            st.session_state.get("nome", "Convidado"),
-            checkout_id=checkout_id
-        )
+            link = criar_pagamento_cartao(
+                total,
+                st.session_state.get("nome", "Convidado"),
+                checkout_id=checkout_id
+            )
 
-        st.session_state["redirect_url"] = link
+            st.session_state["mp_link"] = link
+            st.rerun()
 
-    # 🚀 redirecionamento REAL
-    if "redirect_url" in st.session_state:
-        components.html(
-            f"""
-            <script>
-                window.location.href = "{st.session_state['redirect_url']}";
-            </script>
-            """,
-            height=0
+    else:
+        st.success("Pagamento pronto ✨")
+        st.link_button(
+            "👉 Ir para o Mercado Pago",
+            st.session_state["mp_link"],
+            use_container_width=True
         )
 
     if st.button("⬅ Voltar", use_container_width=True):
+        st.session_state.pop("mp_link", None)
         st.session_state["pagina"] = "checkout"
         st.rerun()
 
