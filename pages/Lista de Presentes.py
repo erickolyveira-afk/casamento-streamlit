@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 import csv
 import smtplib
+import streamlit.components.v1 as components
 from email.message import EmailMessage
 from datetime import datetime
 from pathlib import Path
@@ -583,14 +584,21 @@ if st.session_state["pagina"] == "credito":
             checkout_id=checkout_id
         )
 
-        st.markdown(
-            f'<meta http-equiv="refresh" content="0; url={link}">',
-            unsafe_allow_html=True
-        )
+        st.session_state["redirect_url"] = link
 
     if st.button("⬅ Voltar", use_container_width=True):
         st.session_state["pagina"] = "checkout"
         st.rerun()
+
+if st.session_state.get("redirect_url"):
+    components.html(
+        f"""
+        <script>
+            window.location.href = "{st.session_state['redirect_url']}";
+        </script>
+        """,
+        height=0
+    )
 
 # ==============================
 # RETORNO — CARTÃO APROVADO
