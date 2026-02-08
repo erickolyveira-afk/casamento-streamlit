@@ -586,19 +586,20 @@ if st.session_state["pagina"] == "credito":
 
         st.session_state["redirect_url"] = link
 
+    # 🚀 redirecionamento REAL
+    if "redirect_url" in st.session_state:
+        components.html(
+            f"""
+            <script>
+                window.location.href = "{st.session_state['redirect_url']}";
+            </script>
+            """,
+            height=0
+        )
+
     if st.button("⬅ Voltar", use_container_width=True):
         st.session_state["pagina"] = "checkout"
         st.rerun()
-
-if st.session_state.get("redirect_url"):
-    components.html(
-        f"""
-        <script>
-            window.location.href = "{st.session_state['redirect_url']}";
-        </script>
-        """,
-        height=0
-    )
 
 # ==============================
 # RETORNO — CARTÃO APROVADO
