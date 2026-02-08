@@ -32,7 +32,7 @@ if checkout_id:
     elif status == "pendente":
         st.session_state["pagina"] = "credito_pendente"
 
-    st.experimental_set_query_params()
+    st.query_params.clear()
 # ==============================
 # CONFIGURAÇÃO INICIAL
 # ==============================
