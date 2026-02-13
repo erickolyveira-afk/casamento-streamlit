@@ -2,37 +2,13 @@ import streamlit as st
 import base64
 import csv
 import smtplib
-import streamlit.components.v1 as components
 from email.message import EmailMessage
 from datetime import datetime
 from pathlib import Path
 from data.presentes import presentes
 from utils.pix import gerar_pix_payload, gerar_qr
 from utils.credito import criar_pagamento_cartao
-from utils.checkout import carregar_estado_checkout, salvar_estado_checkout
 
-query_params = st.query_params
-
-checkout_id = query_params.get("checkout_id")
-status = query_params.get("status")
-
-if checkout_id:
-    dados = carregar_estado_checkout(checkout_id)
-
-    st.session_state["nome"] = dados.get("nome")
-    st.session_state["mensagem"] = dados.get("mensagem")
-    st.session_state["carrinho"] = dados.get("carrinho", [])
-
-    if status == "sucesso":
-        st.session_state["pagina"] = "credito_sucesso"
-
-    elif status == "erro":
-        st.session_state["pagina"] = "credito_erro"
-
-    elif status == "pendente":
-        st.session_state["pagina"] = "credito_pendente"
-
-    st.query_params.clear()
 # ==============================
 # CONFIGURAÇÃO INICIAL
 # ==============================
@@ -497,12 +473,23 @@ if st.session_state["pagina"] == "checkout":
     # ✅ CARTÃO — só redireciona
     with col2:
         if st.button("💳 Pagar com Cartão", use_container_width=True):
+    
+            salvar_mensagem(
+                st.session_state["nome"],
+                st.session_state["mensagem"],
+                st.session_state["carrinho"],
+                total
+            )
+    
+            enviar_email(
+                st.session_state["nome"],
+                st.session_state["mensagem"],
+                st.session_state["carrinho"],
+                total
+            )
+    
             st.session_state["pagina"] = "credito"
             st.rerun()
-
-    if st.button("⬅ Voltar", use_container_width=True):
-        st.session_state["pagina"] = "lista"
-        st.rerun()
 
 # ==============================
 # TELA 3 — PAGAMENTO PIX
@@ -575,90 +562,18 @@ if st.session_state["pagina"] == "credito":
     total = sum(item["preco"] for item in st.session_state["carrinho"])
     st.write(f"💰 Total: R$ {total:.2f}")
 
-    if "mp_link" not in st.session_state:
-        if st.button("🔐 Gerar pagamento", use_container_width=True):
-            checkout_id = salvar_estado_checkout()
+    if st.button("🔐 Pagar com cartão", use_container_width=True):
 
-            link = criar_pagamento_cartao(
-                total,
-                st.session_state.get("nome", "Convidado"),
-                checkout_id=checkout_id
-            )
+        link = criar_pagamento_cartao(
+            total,
+            st.session_state.get("nome", "Convidado")
+        )
 
-            st.session_state["mp_link"] = link
-            st.rerun()
-
-    else:
-        st.success("Pagamento pronto ✨")
-        st.link_button(
-            "👉 Ir para o Mercado Pago",
-            st.session_state["mp_link"],
-            use_container_width=True
+        st.markdown(
+            f'<meta http-equiv="refresh" content="0; url={link}">',
+            unsafe_allow_html=True
         )
 
     if st.button("⬅ Voltar", use_container_width=True):
-        st.session_state.pop("mp_link", None)
-        st.session_state["pagina"] = "checkout"
-        st.rerun()
-
-# ==============================
-# RETORNO — CARTÃO APROVADO
-# ==============================
-if st.session_state["pagina"] == "credito_sucesso":
-    st.title("💖 Pagamento confirmado!")
-
-    total = sum(item["preco"] for item in st.session_state["carrinho"])
-
-    salvar_mensagem(
-        st.session_state["nome"],
-        st.session_state["mensagem"],
-        st.session_state["carrinho"],
-        total
-    )
-
-    enviar_email(
-        st.session_state["nome"],
-        st.session_state["mensagem"],
-        st.session_state["carrinho"],
-        total
-    )
-
-    st.success("Muito obrigado pelo carinho! 💐")
-
-    st.session_state["carrinho"] = []
-
-    if st.button("Voltar para a lista"):
-        st.session_state["pagina"] = "lista"
-        st.rerun()
-
-
-# ==============================
-# RETORNO — CARTÃO PENDENTE
-# ==============================
-if st.session_state["pagina"] == "credito_pendente":
-    st.title("⏳ Pagamento pendente")
-
-    st.warning(
-        "Seu pagamento ainda está em análise pelo Mercado Pago. "
-        "Assim que for aprovado, ele será confirmado automaticamente."
-    )
-
-    if st.button("Voltar"):
-        st.session_state["pagina"] = "lista"
-        st.rerun()
-
-
-# ==============================
-# RETORNO — CARTÃO COM ERRO
-# ==============================
-if st.session_state["pagina"] == "credito_erro":
-    st.title("❌ Pagamento não concluído")
-
-    st.error(
-        "O pagamento não foi aprovado. "
-        "Você pode tentar novamente ou escolher outra forma de pagamento."
-    )
-
-    if st.button("Tentar novamente"):
         st.session_state["pagina"] = "checkout"
         st.rerun()
